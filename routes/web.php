@@ -7,6 +7,7 @@ use Inertia\Inertia;
 // Controller追記時はここに
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\TodoController;
 
 /*
@@ -38,6 +39,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/input', [ContentController::class, 'input'])->name('input');
 Route::get('/point', [PointController::class, 'point'])->name('point');
 Route::resource('todo', TodoController::class);
+
+Route::resource('ranking', RankingController::class);
 // Route::grope(['prefix => admin'], function() {
 //     Route::get('point/create', 'Admin\PointController@add');
 // });
