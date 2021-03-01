@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use App\Models\Ranking;
 
 class RankingController extends Controller
 {
@@ -13,7 +15,9 @@ class RankingController extends Controller
      */
     public function index()
     {
-        //
+        return view('ranking.index', [
+            'rankings' => [],
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class RankingController extends Controller
      */
     public function create()
     {
-        //
+        return view('ranking.create');
     }
 
     /**
