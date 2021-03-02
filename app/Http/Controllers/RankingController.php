@@ -15,8 +15,9 @@ class RankingController extends Controller
      */
     public function index()
     {
+        $rankings = Ranking::getAllRanking();
         return view('ranking.index', [
-            'rankings' => [],
+            'rankings' => $rankings,
         ]);
     }
 
@@ -38,7 +39,20 @@ class RankingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required | max:191',
+            'point' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+            ->route('ranking.create')
+            ->withInput()
+            ->withErrors($validator);
+        }
+
+        $result = Ranking::create($request->all());
+        return redirect()->route('ranking.index');
     }
 
     /**
