@@ -63,7 +63,8 @@ class RankingController extends Controller
      */
     public function show($id)
     {
-        //
+        $ranking = Ranking::find($id);
+        return view('ranking.show', ['ranking' => $ranking]);
     }
 
     /**
@@ -74,7 +75,7 @@ class RankingController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**

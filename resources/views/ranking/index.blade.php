@@ -16,7 +16,8 @@
               @foreach ($rankings as $ranking)
               <tr class="hover:bg-grey-lighter">
                 <td class="py-4 px-6 border-b border-grey-light">
-                  <p>{{$ranking->name}}</p>
+                <a href="{{ route('ranking.show', $ranking->id) }}">{{$ranking->name}}</a>
+                  <!-- <p>{{$ranking->name}}</p> -->
                 </td>
                 <td class="py-4 px-6 border-b border-grey-light">{{$ranking->point}}</td>
                 <td class="py-4 px-6 border-b border-grey-light flex justify-center">
