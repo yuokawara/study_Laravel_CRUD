@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\Ranking;
+use Auth;
 
 class RankingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,7 @@ class RankingController extends Controller
      */
     public function index()
     {
-        $rankings = Ranking::getAllRanking();
+        $rankings = Ranking::getMyAllRanking();
         return view('ranking.index', [
             'rankings' => $rankings,
         ]);
@@ -50,8 +56,8 @@ class RankingController extends Controller
             ->withInput()
             ->withErrors($validator);
         }
-
-        $result = Ranking::create($request->all());
+        $data = $request->merge(['user_id' => Auth::user()->id])->all();
+        $result = Ranking::create($data);
         return redirect()->route('ranking.index');
     }
 
@@ -75,7 +81,8 @@ class RankingController extends Controller
      */
     public function edit($id)
     {
-       
+       $ranking = Ranking::find($id);
+       return view('ranking.edit', ['ranking' => $ranking]);
     }
 
     /**
@@ -87,7 +94,20 @@ class RankingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required | max:191',
+            'point' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+            ->route('ranking.create')
+            ->withInput()
+            ->withErrors($validator);
+        }
+
+        $result = Ranking::find($id)->update($request->all());
+        return redirect()->route('ranking.index');
     }
 
     /**
@@ -98,6 +118,7 @@ class RankingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = Ranking::find($id)->delete();
+        return redirect()->route('ranking.index');
     }
 }

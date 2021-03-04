@@ -22,7 +22,20 @@
                 <td class="py-4 px-6 border-b border-grey-light">{{$ranking->point}}</td>
                 <td class="py-4 px-6 border-b border-grey-light flex justify-center">
                   <!-- 更新ボタン -->
+                  <form action="{{ route('ranking.edit',$ranking->id) }}" method="GET">
+                    @csrf
+                    <button type="submit">
+                      更新
+                    </button>
+                  </form>
                   <!-- 削除ボタン -->
+                  <form action="{{ route('ranking.destroy',$ranking->id) }}" method="POST">
+                    @method('delete')
+                    @csrf
+                    <button type="submit">
+                      削除
+                    </button>
+                  </form>
                 </td>
               </tr>
               @endforeach
