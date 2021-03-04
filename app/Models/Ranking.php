@@ -24,7 +24,7 @@ class Ranking extends Model
     public static function getMyAllRanking()
     {
         $rankings = self::where('user_id', Auth::user()->id)
-            ->orderBy('point', 'asc')
+            ->orderBy('point', 'desc')
             ->get();
             return $rankings;
     }

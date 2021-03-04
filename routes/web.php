@@ -9,6 +9,7 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\VersionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::get('/input', [ContentController::class, 'input'])->name('input');
 Route::get('/point', [PointController::class, 'point'])->name('point');
+Route::get('/version', [VersionController::class, 'index'])->name('version');
 Route::resource('todo', TodoController::class);
 
 Route::resource('ranking', RankingController::class);
