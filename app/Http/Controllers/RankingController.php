@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Ranking;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class RankingController extends Controller
 {
@@ -27,15 +28,22 @@ class RankingController extends Controller
         // ]);s
 
         try {
-            foreach(Ranking::all() as $ranking) {
-                $result = [
-                'result' => true,
-                'id' => $ranking->id,
-                'user_id' => $ranking->user_id,
-                'name' => $ranking->name,
-                'point' => $ranking->point,
-            ];
-            }
+            $rankings = DB::table('rankings')->get();
+            // return view('ranking.index', ['rankings' => $rankings]);
+            // $rankings = Ranking::all();
+            // foreach ($rankings as $ranking) {
+            //     echo $ranking->name;
+            //     echo $ranking->point;
+            // }
+            // foreach(Ranking::get() as $ranking) {
+            //     $result = [
+            //     'result' => true,
+            //     'id' => $ranking->id,
+            //     'user_id' => $ranking->user_id,
+            //     'name' => $ranking->name,
+            //     'point' => $ranking->point,
+            // ];
+            // }
             // $ranking = Ranking::first();
             // $result = [
             //     'result' => true,
@@ -43,23 +51,23 @@ class RankingController extends Controller
             //     'point' => $ranking->point,
             // ];
         } catch(\Exception $e) {
-            $result = [
-                'result' => false,
-                'error' => [
-                    'messege' => [$e->getMessage()]
-                ],
-            ];
-            return $this->resConversionJson($result, $e->getCode());
+            // $result = [
+            //     'result' => false,
+            //     'error' => [
+            //         'messege' => [$e->getMessage()]
+            //     ],
+            // ];
+            return $this->resConversionJson($rankings, $e->getCode());
         }
-        return $this->resConversionJson($result);
+        return $this->resConversionJson($rankings);
     }
 
-    private function resConversionJson($result, $statusCode = 200)
+    private function resConversionJson($rankings, $statusCode = 200)
     {
         if (empty($statusCode) || $statusCode < 100 || $statusCode >= 600) {
             $statusCode = 500;
         }
-        return response()->json($result);
+        return response()->json($rankings);
     }
 
     /**
