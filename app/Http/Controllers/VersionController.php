@@ -39,7 +39,9 @@ class VersionController extends Controller
             $statusCode = 500;
         }
         // return response()->json($result, $statusCode, ['Content-Type' => 'application/json'], JSON_UNESCAPED_SLASHES);
-        return response()->json("hello", $result);
+        return response()->json($result);
+        // $response = $this->get('/version');
+        // return $response->assertStatus(200);
     }
 
     /**

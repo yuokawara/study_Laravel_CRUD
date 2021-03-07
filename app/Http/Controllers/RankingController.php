@@ -21,10 +21,45 @@ class RankingController extends Controller
      */
     public function index()
     {
-        $rankings = Ranking::getMyAllRanking();
-        return view('ranking.index', [
-            'rankings' => $rankings,
-        ]);
+        // $rankings = Ranking::getMyAllRanking();
+        // return view('ranking.index', [
+        //     'rankings' => $rankings,
+        // ]);s
+
+        try {
+            foreach(Ranking::all() as $ranking) {
+                $result = [
+                'result' => true,
+                'id' => $ranking->id,
+                'user_id' => $ranking->user_id,
+                'name' => $ranking->name,
+                'point' => $ranking->point,
+            ];
+            }
+            // $ranking = Ranking::first();
+            // $result = [
+            //     'result' => true,
+            //     'name' => $ranking->name,
+            //     'point' => $ranking->point,
+            // ];
+        } catch(\Exception $e) {
+            $result = [
+                'result' => false,
+                'error' => [
+                    'messege' => [$e->getMessage()]
+                ],
+            ];
+            return $this->resConversionJson($result, $e->getCode());
+        }
+        return $this->resConversionJson($result);
+    }
+
+    private function resConversionJson($result, $statusCode = 200)
+    {
+        if (empty($statusCode) || $statusCode < 100 || $statusCode >= 600) {
+            $statusCode = 500;
+        }
+        return response()->json($result);
     }
 
     /**
@@ -121,4 +156,5 @@ class RankingController extends Controller
         $result = Ranking::find($id)->delete();
         return redirect()->route('ranking.index');
     }
+    
 }
