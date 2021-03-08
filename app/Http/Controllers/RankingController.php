@@ -22,53 +22,12 @@ class RankingController extends Controller
      */
     public function index()
     {
-        // $rankings = Ranking::getMyAllRanking();
-        // return view('ranking.index', [
-        //     'rankings' => $rankings,
-        // ]);s
-
-        try {
-            $rankings = DB::table('rankings')->get();
-            // return view('ranking.index', ['rankings' => $rankings]);
-            // $rankings = Ranking::all();
-            // foreach ($rankings as $ranking) {
-            //     echo $ranking->name;
-            //     echo $ranking->point;
-            // }
-            // foreach(Ranking::get() as $ranking) {
-            //     $result = [
-            //     'result' => true,
-            //     'id' => $ranking->id,
-            //     'user_id' => $ranking->user_id,
-            //     'name' => $ranking->name,
-            //     'point' => $ranking->point,
-            // ];
-            // }
-            // $ranking = Ranking::first();
-            // $result = [
-            //     'result' => true,
-            //     'name' => $ranking->name,
-            //     'point' => $ranking->point,
-            // ];
-        } catch(\Exception $e) {
-            // $result = [
-            //     'result' => false,
-            //     'error' => [
-            //         'messege' => [$e->getMessage()]
-            //     ],
-            // ];
-            return $this->resConversionJson($rankings, $e->getCode());
-        }
-        return $this->resConversionJson($rankings);
+        $rankings = Ranking::getMyAllRanking();
+        return view('ranking.index', [
+            'rankings' => $rankings,
+        ]);
     }
 
-    private function resConversionJson($rankings, $statusCode = 200)
-    {
-        if (empty($statusCode) || $statusCode < 100 || $statusCode >= 600) {
-            $statusCode = 500;
-        }
-        return response()->json($rankings);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -164,5 +123,26 @@ class RankingController extends Controller
         $result = Ranking::find($id)->delete();
         return redirect()->route('ranking.index');
     }
-    
-}
+
+    public function api()
+    {
+        try {
+            $rankings = DB::table('rankings')->get();
+        } catch(\Exception $e) {
+            return $this->resConversionJson($rankings, $e->getCode());
+        }
+            return $this->resConversionJson($rankings);
+    }
+
+    private function resConversionJson($rankings, $statusCode = 200)
+    {
+        if (empty($statusCode) || $statusCode < 100 || $statusCode >= 600) {
+            $statusCode = 500;
+        }
+            return response()->json($rankings);
+            // return view('ranking.api', [
+            //     'rankings' => $rankings,
+            // ]);
+    }
+    }
+
