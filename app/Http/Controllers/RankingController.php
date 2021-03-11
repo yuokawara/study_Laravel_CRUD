@@ -22,10 +22,16 @@ class RankingController extends Controller
      */
     public function index()
     {
-        $rankings = Ranking::getMyAllRanking();
-        return view('ranking.index', [
-            'rankings' => $rankings,
-        ]);
+        // $rankings = Ranking::getMyAllRanking();
+        // return view('ranking.index', [
+        //     'rankings' => $rankings,
+        // ]);
+        try {
+            $rankings = DB::table('rankings')->get();
+        } catch(\Exception $e) {
+            return $this->resConversionJson($rankings, $e->getCode());
+        }
+            return $this->resConversionJson($rankings);
     }
 
 
@@ -103,7 +109,7 @@ class RankingController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-            ->route('ranking.create')
+            ->route('ranking.edit', $id)
             ->withInput()
             ->withErrors($validator);
         }
@@ -140,9 +146,10 @@ class RankingController extends Controller
             $statusCode = 500;
         }
             return response()->json($rankings);
-            // return view('ranking.api', [
-            //     'rankings' => $rankings,
-            // ]);
+            return view('ranking.api', [
+                'rankings' => $rankings,
+            ]);
+            
     }
     }
 
