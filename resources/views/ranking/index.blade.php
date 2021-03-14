@@ -41,6 +41,9 @@
               @endforeach
             </tbody>
           </table>
+          <a href="{{ route('ranking.create') }}">
+                新規作成
+          </a>
         </div>
       </div>
     </div>

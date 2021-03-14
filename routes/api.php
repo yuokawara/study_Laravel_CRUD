@@ -30,4 +30,3 @@ Route::get('/point', function () {
         'rankings' => $rankings
     ]);
 });
-// Route::get('/point', [PointController::class, 'point'])->name('point');
