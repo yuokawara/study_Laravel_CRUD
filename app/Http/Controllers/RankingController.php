@@ -22,16 +22,16 @@ class RankingController extends Controller
      */
     public function index()
     {
-        // $rankings = Ranking::getMyAllRanking();
-        // return view('ranking.index', [
-        //     'rankings' => $rankings,
-        // ]);
-        try {
-            $rankings = DB::table('rankings')->get();
-        } catch(\Exception $e) {
-            return $this->resConversionJson($rankings, $e->getCode());
-        }
-            return $this->resConversionJson($rankings);
+        $rankings = Ranking::getMyAllRanking();
+        return view('ranking.index', [
+            'rankings' => $rankings,
+        ]);
+        // try {
+        //     $rankings = DB::table('rankings')->get();
+        // } catch(\Exception $e) {
+        //     return $this->resConversionJson($rankings, $e->getCode());
+        // }
+        //     return $this->resConversionJson($rankings);
     }
 
 
@@ -130,26 +130,25 @@ class RankingController extends Controller
         return redirect()->route('ranking.index');
     }
 
-    public function api()
-    {
-        try {
-            $rankings = DB::table('rankings')->get();
-        } catch(\Exception $e) {
-            return $this->resConversionJson($rankings, $e->getCode());
-        }
-            return $this->resConversionJson($rankings);
-    }
+    // public function api()
+    // {
+    //     try {
+    //         $rankings = DB::table('rankings')->get();
+    //     } catch(\Exception $e) {
+    //         return $this->resConversionJson($rankings, $e->getCode());
+    //     }
+    //         return $this->resConversionJson($rankings);
+    // }
 
-    private function resConversionJson($rankings, $statusCode = 200)
-    {
-        if (empty($statusCode) || $statusCode < 100 || $statusCode >= 600) {
-            $statusCode = 500;
-        }
-            return response()->json($rankings);
-            return view('ranking.api', [
-                'rankings' => $rankings,
-            ]);
+    // private function resConversionJson($rankings, $statusCode = 200)
+    // {
+    //     if (empty($statusCode) || $statusCode < 100 || $statusCode >= 600) {
+    //         $statusCode = 500;
+    //     }
+    //         return response()->json($rankings);
+    //         return view('ranking.api', [
+    //             'rankings' => $rankings,
+    //         ]);
             
-    }
-    }
-
+    // }
+     }

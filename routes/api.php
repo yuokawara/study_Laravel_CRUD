@@ -24,3 +24,10 @@ Route::get('/hello', function () {
         'message' => $message
     ]);
 });
+Route::get('/point', function () {
+    $rankings = DB::table('rankings')->get();
+    return response()->json([
+        'rankings' => $rankings
+    ]);
+});
+// Route::get('/point', [PointController::class, 'point'])->name('point');
